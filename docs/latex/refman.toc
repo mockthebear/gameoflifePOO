@@ -1,0 +1,55 @@
+\contentsline {chapter}{\numberline {1}Class Index}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Class List}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}File Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}File List}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}Class Documentation}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Cell Class Reference}{5}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Detailed Description}{5}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Member Function Documentation}{5}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}isAlive}{5}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {3.1.2.2}kill}{5}{subsubsection.3.1.2.2}
+\contentsline {subsubsection}{\numberline {3.1.2.3}revive}{6}{subsubsection.3.1.2.3}
+\contentsline {section}{\numberline {3.2}Controller Class Reference}{6}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Detailed Description}{6}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Constructor \& Destructor Documentation}{6}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}Controller}{6}{subsubsection.3.2.2.1}
+\contentsline {subsection}{\numberline {3.2.3}Member Function Documentation}{6}{subsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.3.1}StartGame}{6}{subsubsection.3.2.3.1}
+\contentsline {section}{\numberline {3.3}GameBoard Class Reference}{7}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{7}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Constructor \& Destructor Documentation}{7}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.2.1}GameBoard}{7}{subsubsection.3.3.2.1}
+\contentsline {subsection}{\numberline {3.3.3}Member Function Documentation}{7}{subsection.3.3.3}
+\contentsline {subsubsection}{\numberline {3.3.3.1}update}{7}{subsubsection.3.3.3.1}
+\contentsline {section}{\numberline {3.4}GameOfLife Class Reference}{7}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Detailed Description}{8}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Constructor \& Destructor Documentation}{8}{subsection.3.4.2}
+\contentsline {subsubsection}{\numberline {3.4.2.1}GameOfLife}{8}{subsubsection.3.4.2.1}
+\contentsline {subsection}{\numberline {3.4.3}Member Function Documentation}{8}{subsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.3.1}aliveCells}{8}{subsubsection.3.4.3.1}
+\contentsline {subsubsection}{\numberline {3.4.3.2}aliveNeighborCells}{8}{subsubsection.3.4.3.2}
+\contentsline {subsubsection}{\numberline {3.4.3.3}getHeight}{8}{subsubsection.3.4.3.3}
+\contentsline {subsubsection}{\numberline {3.4.3.4}getWidth}{8}{subsubsection.3.4.3.4}
+\contentsline {subsubsection}{\numberline {3.4.3.5}isCellAlive}{9}{subsubsection.3.4.3.5}
+\contentsline {subsubsection}{\numberline {3.4.3.6}makeCellAlive}{9}{subsubsection.3.4.3.6}
+\contentsline {subsubsection}{\numberline {3.4.3.7}makeCellDead}{9}{subsubsection.3.4.3.7}
+\contentsline {subsubsection}{\numberline {3.4.3.8}nextGeneration}{9}{subsubsection.3.4.3.8}
+\contentsline {section}{\numberline {3.5}GameOfLifeTest Class Reference}{9}{section.3.5}
+\contentsline {section}{\numberline {3.6}Statistics Class Reference}{9}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Detailed Description}{10}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Constructor \& Destructor Documentation}{10}{subsection.3.6.2}
+\contentsline {subsubsection}{\numberline {3.6.2.1}Statistics}{10}{subsubsection.3.6.2.1}
+\contentsline {subsection}{\numberline {3.6.3}Member Function Documentation}{10}{subsection.3.6.3}
+\contentsline {subsubsection}{\numberline {3.6.3.1}kill}{10}{subsubsection.3.6.3.1}
+\contentsline {subsubsection}{\numberline {3.6.3.2}survive}{10}{subsubsection.3.6.3.2}
+\contentsline {chapter}{\numberline {4}File Documentation}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}src/include/Controller.h File Reference}{11}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{11}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}src/include/GameBoard.h File Reference}{11}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{12}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}src/include/GameOfLife.h File Reference}{12}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Detailed Description}{12}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Enumeration Type Documentation}{12}{subsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.2.1}EnumState}{12}{subsubsection.4.3.2.1}
+\contentsline {section}{\numberline {4.4}src/include/Statistics.h File Reference}{12}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Detailed Description}{13}{subsection.4.4.1}

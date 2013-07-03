@@ -1,0 +1,134 @@
+\hypertarget{class_game_of_life}{
+\section{GameOfLife Class Reference}
+\label{class_game_of_life}\index{GameOfLife@{GameOfLife}}
+}
+
+
+{\ttfamily \#include $<$GameOfLife.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_game_of_life_a75b95639a474f4b263363047307d753b}{GameOfLife} (int w, int h)
+\item 
+int \hyperlink{class_game_of_life_a1c740d5f412f4205c13e7ddb31a3bf74}{aliveCells} ()
+\item 
+int \hyperlink{class_game_of_life_a8e378880adb2a5ebfa1675d3cd516791}{aliveNeighborCells} (int w, int h)
+\item 
+bool \hyperlink{class_game_of_life_a7fc23cd47d2f304195366397bdef6631}{isCellAlive} (int w, int h)
+\item 
+void \hyperlink{class_game_of_life_a8a1d68a881a0e4ea914dcac7c105bcb1}{makeCellAlive} (int w, int h)
+\item 
+void \hyperlink{class_game_of_life_abe77740fa4db92cbab1c67fad160fff0}{makeCellDead} (int w, int h)
+\item 
+void \hyperlink{class_game_of_life_a7a08a682e13b4b695637749dc56c2cd8}{nextGeneration} ()
+\item 
+int \hyperlink{class_game_of_life_a097230470ccc7de6095744b479b8d842}{getWidth} () const 
+\item 
+int \hyperlink{class_game_of_life_aa05c6988166fd5ba9289bb9581479312}{getHeight} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_game_of_life}{GameOfLife} class definition
+
+Modularizes the behavior of a game of life. In this version, just one algorithm for evolving the environment for a next generation is allowed. To solve this provlem, we could evolve this design using either the Strategy or Template Method design patterns (both).
+
+This version is not well designed, since it keeps a reference to one instance of the \hyperlink{class_statistics}{Statistics} class. It would be nice to see an implementation of this class being a subject participant of the Observer pattern, whereas the Statics class could be one subscriber participant of the Observer pattern. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_game_of_life_a75b95639a474f4b263363047307d753b}{
+\index{GameOfLife@{GameOfLife}!GameOfLife@{GameOfLife}}
+\index{GameOfLife@{GameOfLife}!GameOfLife@{GameOfLife}}
+\subsubsection[{GameOfLife}]{\setlength{\rightskip}{0pt plus 5cm}GameOfLife::GameOfLife (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a75b95639a474f4b263363047307d753b}
+Constructor, taking the number of columns and rows 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_game_of_life_a1c740d5f412f4205c13e7ddb31a3bf74}{
+\index{GameOfLife@{GameOfLife}!aliveCells@{aliveCells}}
+\index{aliveCells@{aliveCells}!GameOfLife@{GameOfLife}}
+\subsubsection[{aliveCells}]{\setlength{\rightskip}{0pt plus 5cm}int GameOfLife::aliveCells (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a1c740d5f412f4205c13e7ddb31a3bf74}
+Returns the number of cells in the ALIVE state \hypertarget{class_game_of_life_a8e378880adb2a5ebfa1675d3cd516791}{
+\index{GameOfLife@{GameOfLife}!aliveNeighborCells@{aliveNeighborCells}}
+\index{aliveNeighborCells@{aliveNeighborCells}!GameOfLife@{GameOfLife}}
+\subsubsection[{aliveNeighborCells}]{\setlength{\rightskip}{0pt plus 5cm}int GameOfLife::aliveNeighborCells (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a8e378880adb2a5ebfa1675d3cd516791}
+Given the position of a cell, returns the number of alive neighbors \hypertarget{class_game_of_life_aa05c6988166fd5ba9289bb9581479312}{
+\index{GameOfLife@{GameOfLife}!getHeight@{getHeight}}
+\index{getHeight@{getHeight}!GameOfLife@{GameOfLife}}
+\subsubsection[{getHeight}]{\setlength{\rightskip}{0pt plus 5cm}int GameOfLife::getHeight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_game_of_life_aa05c6988166fd5ba9289bb9581479312}
+Access method to the number of rows \hypertarget{class_game_of_life_a097230470ccc7de6095744b479b8d842}{
+\index{GameOfLife@{GameOfLife}!getWidth@{getWidth}}
+\index{getWidth@{getWidth}!GameOfLife@{GameOfLife}}
+\subsubsection[{getWidth}]{\setlength{\rightskip}{0pt plus 5cm}int GameOfLife::getWidth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_game_of_life_a097230470ccc7de6095744b479b8d842}
+Access method to the number of columns \hypertarget{class_game_of_life_a7fc23cd47d2f304195366397bdef6631}{
+\index{GameOfLife@{GameOfLife}!isCellAlive@{isCellAlive}}
+\index{isCellAlive@{isCellAlive}!GameOfLife@{GameOfLife}}
+\subsubsection[{isCellAlive}]{\setlength{\rightskip}{0pt plus 5cm}bool GameOfLife::isCellAlive (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a7fc23cd47d2f304195366397bdef6631}
+Checks whether a cell is alive \hypertarget{class_game_of_life_a8a1d68a881a0e4ea914dcac7c105bcb1}{
+\index{GameOfLife@{GameOfLife}!makeCellAlive@{makeCellAlive}}
+\index{makeCellAlive@{makeCellAlive}!GameOfLife@{GameOfLife}}
+\subsubsection[{makeCellAlive}]{\setlength{\rightskip}{0pt plus 5cm}void GameOfLife::makeCellAlive (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a8a1d68a881a0e4ea914dcac7c105bcb1}
+Makes a given cell alive \hypertarget{class_game_of_life_abe77740fa4db92cbab1c67fad160fff0}{
+\index{GameOfLife@{GameOfLife}!makeCellDead@{makeCellDead}}
+\index{makeCellDead@{makeCellDead}!GameOfLife@{GameOfLife}}
+\subsubsection[{makeCellDead}]{\setlength{\rightskip}{0pt plus 5cm}void GameOfLife::makeCellDead (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_abe77740fa4db92cbab1c67fad160fff0}
+Kills a given cell \hypertarget{class_game_of_life_a7a08a682e13b4b695637749dc56c2cd8}{
+\index{GameOfLife@{GameOfLife}!nextGeneration@{nextGeneration}}
+\index{nextGeneration@{nextGeneration}!GameOfLife@{GameOfLife}}
+\subsubsection[{nextGeneration}]{\setlength{\rightskip}{0pt plus 5cm}void GameOfLife::nextGeneration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_game_of_life_a7a08a682e13b4b695637749dc56c2cd8}
+Leads the game state to a next generation 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_game_of_life_8h}{GameOfLife.h}\item 
+src/cpp/GameOfLife.cpp\end{DoxyCompactItemize}

@@ -1,0 +1,209 @@
+\documentclass{beamer}
+
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+\usepackage{listings}
+
+\usetheme{Warsaw}
+
+\title{Programação Orientada a Objetos \\ Padrões de Projeto}
+\subtitle{Game of Life}
+
+\author{Rodrigo Bonifácio}
+
+\begin{document}
+\lstset{language=C++}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Game of Life}
+
+\begin{Large}
+Proposto pelo matemático John Conway (Princenton University) em 1970, esse não
+corresponde a um jogo típico \ldots
+\end{Large}
+
+\pause 
+
+\begin{itemize}
+\item Não existem jogadores
+\item Não existem vencedores ou perdedores
+\end{itemize}
+
+Uma vez que as ``peças'' são posicionadas, as regras determinam tudo
+que acontecerá a seguir.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Regras}
+
+As células, dispostas em um ``tabuleiro'' em forma de grade bidimensional, podem estar vivas ou
+mortas. Uma célula viva é indicada por uma marca na posição específica
+do tabuleiro. \pause Uma nova geração de células depende da vizinhança
+de cada célula específica (cada célula possui no máximo 8 células
+vizinhas). 
+
+\pause
+
+\begin{itemize}
+\item Uma célula morta com exatamente três células vizinhas vivas se
+  torna uma célula viva (nascimento).
+
+\item Uma célula viva com duas ou três células vizinhas vivas
+  permanece viva (sobrevive).
+
+\item Em todos os outros casos, a célula morre ou continua morta
+  (superpopulação ou solidão). 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Implementação}
+
+Em 2011.1, disponibilizei uma implementação que me tomou algo em
+torno de 6 horas da noite de um sábado\pause, escutando Ramones e 
+tomando vinho. \pause
+
+\vskip+1.5em 
+
+Ou seja, a implementação contém várias falhas de design \pause(propositais).
+
+\begin{itemize}
+\item Vocês precisam melhorar essa implementação
+\item Usando como guia alguns padrões de projeto
+\end{itemize}
+
+\pause 
+
+Ou seja, usaremos a abordagem \emph{Problem Based Learning} para
+discutirmos padões de projeto.
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 01} 
+
+A decomposição \emph{Model View Controller} da implementação não está
+adequada. \pause {\bf Desafio:} Reestruturar de acordo com o padrão MVC confome discutido
+por: 
+
+\begin{itemize}
+\item Yen Ping Ping Shan, \emph{An event-driven model-view-controller framework for Smalltalk},
+OOPSLA '89.
+
+\item Glenn E. Krasner and Stephen T. Pope, \emph{A cookbook for using
+  the model-view controller user interface paradigm in Smalltalk-80},
+  Journal of Object-Oriented Programming, Volume 1 Issue 3, Aug./Sept. 1988 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Falha 02}
+Ainda associada a decomposição MVC seguida na implementação atual, as
+responsabilidades das classes não estão bem distribu\'{i}das. Ou seja, os
+componentes possuem um elevado grau de acoplamento. {\bf Desafio:}
+Usar os padrões de projeto \emph{Mediator} e \emph{Facade} para reduzir o acoplamento
+entre as classes, de tal forma que possamos centralizar as
+colaborações entre os objetos.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 03}
+
+Existe um forte acoplamento entre a classe \emph{GameOfLife} e a
+classe \emph{Statistics}. Basicamente, a instância da classe
+\emph{Statistics} precisa ser notificada quando uma célula é morta ou
+ressuscitada. Mas outros objetos poderiam ter interesse neste tipo de
+notificação, associada a mudança de estado do jogo. \pause {\bf Desafio:}
+Usar o padrão de projeto \emph{Observer} para diminuir esse
+acoplamento, permitindo que instãncias de outras classes
+possam se registrar nesse tipo de evento. 
+ 
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 04}
+
+As regras do jogo (derivação de uma nova geração) estão definidas no
+método \emph{nextGeneration()} da classe \emph{GameOfLife}. Por outro
+lado, existem diferentes estratégias de derivação de uma nova
+geração. Por exemplo, a variação \emph{HighLife} sugere que uma célula
+morta seja ressuscitada caso tenha seis células vizinhas
+vivas\footnote{Existem várias outras estratégias: http://www.mirekw.com/ca/rullex\_life.html}. \pause
+{\bf Desafio:} Usar os padrões de projeto \emph{Strategy}  e
+\emph{Template Method} para
+modularizar as regras do jogo, de tal forma que possamos ter
+diferentes estratégias de implementação.  
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 05}
+
+A transição de estado de uma célula está implementada na classe
+\emph{GameOfLife}, basicamente porque temos apenas dois estados para
+células (viva / morta). Por outro lado, existem variações do jogo
+\emph{GameOfLife} que suportam mais estados. Por exemplo, na variação
+\emph{ImigrationGame}, uma célula ressuscitada tem as mesmas
+características genéticas das células mais frequentes em relação as
+suas vizinhas. \pause {\bf Desafio:} Usar o padrão \emph{State} para
+controlar a transição de estados das células, bem como evoluir a
+aplicação para considera dois tipos de células vivas ``o'' e ``x''. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 06}
+
+A implementação não oferece meios para retornar a uma geração
+anterior. Por outro lado, isso é útil quando desejamos comparar as evoluções entre duas gerações
+de forma mais precisa. A idéia é implementar essa nova \emph{feature},
+de tal forma que o usuário possa retornar \emph{n-gerações}, onde 
+$1<= n <= 5$. {\bf Sugestão:} Usar o padrão de projeto \emph{Memento},
+de tal forma que o estado de um objeto seja encapsulado, facilitando
+operações de \emph{undo}. 
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Falha 07}
+A interface gráfica atual é bastante rudimentar, por outro lado,
+facilita a portabilidade. Gostaríamos de ter uma implementação do 
+\emph{GameOfLife} usando alguma interface gráfica, baseada em
+frameworks como Java Swing, GTK+, WX, ou QT. Esses frameworks utilizam padrões de
+projeto como \emph{Observer} e \emph{Command} para notificar e tratar
+eventos. {\bf Desafio:} Implementar uma interface gráfica utilizando
+algum framework existente, mas isso de forma flexível, 
+coexistindo com a interface baseada em \emph{shell}. 
+\end{frame}
+
+
+\begin{frame}
+\end{frame}
+\begin{frame}
+\Huge{Temos 7 falhas \ldots}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Objetivo desse trabalho }
+\begin{enumerate}
+\item Nesse semestre, voc\^{e}s devem implementar {\bf todos os desafios} 
+\item Registrar a evolu\c c\~{a}o do c\'{o}digo utilizando o GIT
+\item Manter os testes unit\'{a}rios atualizados
+\item Essa atividade vale 40\% da nota da segunda prova
+\item Entrega: 08/07/2013 \pause
+\item Ponto adicional na m\'{e}dia para o grupo que implementar mais
+  varia\c c\~{o}es do jogo \pause, desde que o c\'{o}digo esteja bem organizado. 
+\end{enumerate}
+
+\end{frame}
+
+
+\end{document}
+
