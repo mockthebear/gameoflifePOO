@@ -3,19 +3,27 @@ Screen::Screen(int h,int w,int row2,int col2){
     SDL_Init( SDL_INIT_EVERYTHING );
     height = h;
     width = w;
-    screen = SDL_SetVideoMode( h,w, 32, SDL_SWSURFACE );
+    screen = SDL_SetVideoMode( h,w+32, 32, SDL_SWSURFACE );
     TTF_Init();
-    quit = false;
     font = TTF_OpenFont( "../content/defaut.ttf",12 );
     SDL_WM_SetCaption( "Game of life!", NULL );
-    surfaces = (Surface*)malloc(sizeof(Surfaces));
-    surfaces->next = NULL;
-    surfaces->x = surfaces->y = 0;
     col = col2;
     row = row2;
-    surfaces->s = SDL_LoadBMP( "../content/background.bmp" );
+    BG = SDL_LoadBMP( "../content/background.bmp" );
+    MBG = SDL_LoadBMP( "../content/menubg.bmp" );
     gh = SDL_LoadBMP( "../content/grid_h.bmp" );
     gv = SDL_LoadBMP( "../content/grid_v.bmp" );
+    play    = SDL_LoadBMP( "../content/play.bmp" );
+    pause   = SDL_LoadBMP( "../content/pause.bmp" );
+    f       = SDL_LoadBMP( "../content/f.bmp" );
+    ff      = SDL_LoadBMP( "../content/ff.bmp" );
+    fff     = SDL_LoadBMP( "../content/fff.bmp" );
+
+    //Text:
+    SDL_Color textColor = { 100, 0, 255 };
+    txtp = TTF_RenderText_Solid( font, "Play/Pause:", textColor );
+    txts = TTF_RenderText_Solid( font, "Speed:", textColor );
+
 }
 
 void Screen::apply_surface( int x, int y, SDL_Surface* source )
@@ -25,54 +33,15 @@ void Screen::apply_surface( int x, int y, SDL_Surface* source )
     offset.y = y;
     SDL_BlitSurface( source, NULL, screen, &offset );
 }
-void Screen::createCell(int x,int y,int xxx,int yyy){
-    Surface *f = surfaces;
-    SDL_Color textColor = { 255, 255, 255 };
-    if (surfaces == NULL){
-        f = surfaces = (Surface*)malloc(sizeof(Surfaces));
-    }else{
-        f = surfaces;
-        while (f->next != NULL){
-            f = f->next;
-        }
-        f = f->next = (Surface*)malloc(sizeof(Surfaces));
-    }
-    f->x = x;
-    f->y = y;
-    f->xx = xxx;
-    f->yy = yyy;
-    f->s = SDL_LoadBMP( "../content/yellow.bmp" );
-    f->next = NULL;
 
-}
 
 void Screen::newText(int x,int y,const char *s){
-    Surface *f = surfaces;
-    SDL_Color textColor = { 255, 255, 255 };
-    if (surfaces == NULL){
-        f = surfaces = (Surface*)malloc(sizeof(Surfaces));
-    }else{
-        f = surfaces;
-        while (f->next != NULL){
-            f = f->next;
-        }
-        f = f->next = (Surface*)malloc(sizeof(Surfaces));
-    }
-    //f = (Surface*)malloc(sizeof(Surfaces));
-    f->x = x;
-    f->y = y;
-    f->s = TTF_RenderText_Solid( font, s, textColor );
-    f->next = NULL;
 
 }
-void Screen::drawScreen(){
+void Screen::drawScreen(GameOfLife& game,int s,bool p){
     Surface *swt = surfaces;
     int i = 0;
-    while (swt != NULL){
-        i++;
-        apply_surface(swt->x,swt->y,swt->s);
-        swt = swt->next;
-    }
+    apply_surface(0,0,BG);
     int x=0;
     for (x=0;x<=(height/col);x++){
         apply_surface((height/col)*x,0,gv);
@@ -83,50 +52,40 @@ void Screen::drawScreen(){
     }
     apply_surface(0,width-6,gh);
     apply_surface(height-6,0,gv);
-    SDL_Delay(10);
-}
-int Screen::refresh(){
-    while( quit == false )
-    {
-        drawScreen();
-        if( SDL_PollEvent( &event ) )
-        {
+    apply_surface(0,width,MBG);
+    apply_surface(175,width+11,txtp);
+    apply_surface(310,width+11,txts);
+    if (!p)
+        apply_surface(250,width+8,play);
+    else
+        apply_surface(250,width+8,pause);
+    switch(s){
+    case 1:
+        apply_surface(350,width+8,f);
+        break;
+    case 2:
+        apply_surface(350,width+8,ff);
+        break;
+    case 3:
+        apply_surface(350,width+8,fff);
+        break;
 
-            if( event.type == SDL_KEYDOWN )
-            {
-                //event.key.keysym.sym
-                int key = event.key.keysym.sym;
-                return key-'0';
+    }
+
+    for(int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++) {
+            if (game.isCellAlive(j,i)){
+                apply_surface((j)*(height/col)+16,(i)*(width/row)+10,game.getCell(j,i)->s);
             }
-
-            else if( event.type == SDL_QUIT )
-            {
-
-                return -1;
-            }else if( event.type == SDL_MOUSEBUTTONDOWN  )
-            {
-                if( event.button.button == SDL_BUTTON_LEFT )
-                {
-                    int XX = event.motion.x;
-                    int YY = event.motion.y;
-                    int XX_ = XX-XX%(height/col)+((height/col)/3);
-                    int YY_ = YY-YY%((width/row))+((width/row)/4);
-                    int ROW = (YY-YY%((width/row)))/(width/row);
-                    int COL = (XX-XX%(height/col))/(height/col);
-                    //createCell(XX_,YY_,ROW,COL);
-                    /*
-                    Pressed ROW & COL
-                    */
-                }
-            }
-        }
-
-        if( SDL_Flip( screen ) == -1 )
-        {
-            return -1;
+            //tela->setCell(i,j,);
         }
     }
+
+    SDL_Flip( screen );
+
+    SDL_Delay(10);
 }
+
 void Screen::setCell(int i,int j,bool b){
 
 }

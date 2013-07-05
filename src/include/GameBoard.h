@@ -30,9 +30,7 @@ class GameBoard {
  private:
   int rows;
   int cols;
-  void printLine();
-  void printLineIds();
-  void clearScreen();
+
   Screen *tela;
  public:
   /*! basic constructor, taking the number of rows and columns */

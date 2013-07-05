@@ -2,6 +2,7 @@
 #include "SDL/SDL_ttf.h"
 #include <string>
 
+#include "GameOfLife.h"
 #ifndef SCREEN_H
 #define SCREEN_H
 
@@ -12,22 +13,21 @@ typedef struct Surfaces{
 
 }Surface;
 class Screen{
-    SDL_Surface* screen,*gh,*gv;
-    SDL_Event event;
+    SDL_Surface* screen,*gh,*gv,*BG,*MBG,*play,*pause,*f,*ff,*fff,*txtp,*txts;
+
     TTF_Font *font;
     int col,row,height,width;
     Surface *surfaces;
-    bool quit;
     public:
 
         Screen(int,int,int,int);
         ~Screen();
-        void drawScreen();
-        int refresh();
+        void drawScreen(GameOfLife& game,int s,bool p);
+
         void setCell(int,int,bool);
         void apply_surface( int , int , SDL_Surface* );
         void newText(int x,int y,const char *s);
-        void createCell(int x,int y,int xxx,int yyy);
+
 };
 
 #endif

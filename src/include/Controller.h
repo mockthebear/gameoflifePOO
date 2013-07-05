@@ -9,7 +9,7 @@
 
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-
+#include <SDL/SDL.h>
 #include "GameOfLife.h"
 #include "GameBoard.h"
 #include "Screen.h"
@@ -27,13 +27,21 @@ class Controller{
  private:
   GameOfLife& game;
   GameBoard& board;
-  void revive();
+  SDL_Event event;
+  Screen *tela;
+  bool play;
+  int speed;
+  int col,row,height,width;
+  void revive(int c,int r);
   void nextGeneration();
  public:
   /*! Controller constructor, taking a game instance (model) and a game board (view) */
-  Controller(GameOfLife& g, GameBoard& b) : game(g), board(b) {}
+  Controller(GameOfLife& g, GameBoard& b,int c,int r,int h,int w,Screen *tela) : game(g), board(b), col(c), row(r), height(h), width(w),tela(tela) {speed = 1;play=false;}
 
   /*! Start the execution of the game */
-  void startGame(Screen* s);
+  void startGame();
+
+  /*! Receive inputs*/
+  int input();
 };
 #endif

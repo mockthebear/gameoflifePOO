@@ -7,8 +7,18 @@ using namespace std;
 
 
 
-Cell::Cell(){ 
+Cell::Cell(int i,int j,int t){
   state = ALIVE;
+  i = i;
+  j = j;
+  switch(t){
+        case 1:
+            s=SDL_LoadBMP( "../content/red.bmp" );
+        break;
+        default:
+            s=SDL_LoadBMP( "../content/yellow.bmp" );
+  }
+
 }
 
 void Cell::kill() {
@@ -26,17 +36,17 @@ bool Cell::isAlive() {
 GameOfLife::GameOfLife(int w, int h) {
   width = w;
   height = h;
-  
+
   cells = new Cell*[w*h];
-  
+
   for(int i = 0; i < height; i++) {
     for(int j = 0; j < width; j++) {
-      cells[i*width + j] = new Cell();
+      cells[i*width + j] = new Cell(i,j,0);
     }
   }
-  
+
   killEnvironment();
-  
+
   statistics = new Statistics();
 }
 
@@ -64,7 +74,7 @@ int GameOfLife::aliveCells() {
 int GameOfLife::aliveNeighborCells(int w, int h) {
   if(w < 0 || w >= width) return 0;
   if(h < 0 || h >= height) return 0;
-  
+
   int r = 0;
 
   for(int i = h-1; i <= h + 1; i++) {
@@ -82,6 +92,13 @@ bool GameOfLife::isCellAlive(int w, int h) {
   if(h < 0 || h >= height) return false;
 
   return  cells[h * width + w]->isAlive();
+}
+
+Cell *GameOfLife::getCell(int w, int h) {
+  if(w < 0 || w >= width) return NULL;
+  if(h < 0 || h >= height) return NULL;
+
+  return  cells[h * width + w];
 }
 
 
@@ -138,15 +155,15 @@ void GameOfLife::nextGeneration() {
   }
 }
 
- /* Usando o TM, deveriamos tornar shouldRevive e 
+ /* Usando o TM, deveriamos tornar shouldRevive e
   * shouldKill abstratos.
-  */ 
+  */
 
 /*
- * Uma celula morta deve ressuscitar caso 
+ * Uma celula morta deve ressuscitar caso
  * tenha tres celulas vizinhas vivas.
 
- */ 
+ */
 bool GameOfLife::shouldRevive(int w, int h) {
   int aliveNeighbors = aliveNeighborCells(w,h);
 
@@ -154,9 +171,9 @@ bool GameOfLife::shouldRevive(int w, int h) {
 }
 
 /*
- * Uma celula viva deve morrer caso 
+ * Uma celula viva deve morrer caso
  * tenha duas ou tres celulas vizinhas vivas.
- */ 
+ */
 bool GameOfLife::shouldKill(int w, int h) {
   int aliveNeighbors = aliveNeighborCells(w,h);
 
