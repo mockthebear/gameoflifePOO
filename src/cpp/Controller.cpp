@@ -2,27 +2,28 @@
 
 using namespace std;
 
-#include "../include/Controller.h" 
+#include "../include/Controller.h"
+#include "../include/Screen.h"
 
-void Controller::startGame() {
+void Controller::startGame(Screen *tela) {
 
   while(true) {
     cout << "Select one option: " << endl << endl;
     cout << "[1] Cell revive " << endl;
-    cout << "[2] Next generation " << endl; 
+    cout << "[2] Next generation " << endl;
     cout << "[3] Halt " << endl << endl;
-    
-    int menu = 0;
-    
+
+    int menu = tela->refresh();
+
     cout << "Opcao: " ;
-    
-    cin >> menu;
+
+    //cin >> menu;
     switch(menu) {
      case 1: revive(); break;
      case 2: nextGeneration(); break;
-     case 3: return; 
+     case 3: return;
      defaut: cout << endl << "Opcao invalida. Tente novamente." << endl << endl;
-    } 
+    }
   }
 }
 
@@ -54,7 +55,7 @@ void Controller::revive() {
 
      if(c == -1) return;
    }
-   
+
    game.makeCellAlive(c, r);
    board.update(game);
 }
