@@ -1,4 +1,7 @@
 #include "../include/Screen.h"
+#include <SDL/SDL.h>
+#include <stdlib.h>
+#include <stdio.h>
 Screen::Screen(int h,int w,int row2,int col2){
     SDL_Init( SDL_INIT_EVERYTHING );
     height = h;
