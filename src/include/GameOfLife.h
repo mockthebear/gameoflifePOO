@@ -33,6 +33,7 @@ class Cell {
  public:
   SDL_Surface *s;
   Cell(int,int,int);
+  ~Cell();
   /*! Changes the state of a cell to DEAD */
   void kill();
 
@@ -69,10 +70,12 @@ class GameOfLife {
   int width, height;
   Statistics* statistics;
   Cell** cells;
-  void killEnvironment();
+
   bool shouldRevive(int w, int h);
   bool shouldKill(int w, int h);
  public:
+  /*! Became public! */
+  void killEnvironment();
   /*! Constructor, taking the number of columns and rows */
   GameOfLife(int w, int h);
 

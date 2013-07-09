@@ -6,7 +6,9 @@ using namespace std;
 #include "../include/GameOfLife.h"
 
 
-
+Cell::~Cell(){
+    SDL_FreeSurface(s);
+}
 Cell::Cell(int i,int j,int t){
   state = ALIVE;
   i = i;
@@ -21,12 +23,14 @@ Cell::Cell(int i,int j,int t){
 
 }
 void Cell::immortal() {
+  SDL_FreeSurface(s);
   s = SDL_LoadBMP( "../content/blue.bmp" );
   state = IMMORTAL;
 }
 
 void Cell::kill() {
   if (isImmortal()){
+    SDL_FreeSurface(s);
     s=SDL_LoadBMP( "../content/yellow.bmp" );
   }
   state = DEAD;

@@ -21,11 +21,18 @@ Screen::Screen(int h,int w,int row2,int col2){
     f       = SDL_LoadBMP( "../content/f.bmp" );
     ff      = SDL_LoadBMP( "../content/ff.bmp" );
     fff     = SDL_LoadBMP( "../content/fff.bmp" );
+    refresh     = SDL_LoadBMP( "../content/refresh.bmp" );
+    gen     = SDL_LoadBMP( "../content/gen.bmp" );
 
     //Text:
     SDL_Color textColor = { 100, 0, 255 };
+    SDL_Color textColor2 = { 255, 10, 100 };
     txtp = TTF_RenderText_Solid( font, "Play/Pause:", textColor );
     txts = TTF_RenderText_Solid( font, "Speed:", textColor );
+    txte = TTF_RenderText_Solid( font, "Refresh:", textColor );
+    txtg = TTF_RenderText_Solid( font, "Next gen:", textColor );
+    ln1 = TTF_RenderText_Solid( font, "Left click: common cell", textColor2 );
+    ln2 = TTF_RenderText_Solid( font, "Right click: immortal cell", textColor2 );
 
 }
 
@@ -38,9 +45,6 @@ void Screen::apply_surface( int x, int y, SDL_Surface* source )
 }
 
 
-void Screen::newText(int x,int y,const char *s){
-
-}
 void Screen::drawScreen(GameOfLife& game,int s,bool p){
     Surface *swt = surfaces;
     int i = 0;
@@ -58,6 +62,13 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
     apply_surface(0,width,MBG);
     apply_surface(175,width+11,txtp);
     apply_surface(310,width+11,txts);
+    apply_surface(410,width+11,txte);
+    apply_surface(520,width+11,txtg);
+    apply_surface(10,width+4,ln1);
+    apply_surface(10,width+18,ln2);
+    apply_surface(460,width+8,refresh);
+
+    apply_surface(580,width+8,gen);
     if (!p)
         apply_surface(250,width+8,play);
     else
@@ -89,10 +100,17 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
     SDL_Delay(10);
 }
 
-void Screen::setCell(int i,int j,bool b){
 
-}
 Screen::~Screen(){
-        SDL_Quit();
-        TTF_Quit();
+    SDL_FreeSurface(BG);
+    SDL_FreeSurface(MBG);
+    SDL_FreeSurface(gh);
+    SDL_FreeSurface(gv);
+    SDL_FreeSurface(play);
+    SDL_FreeSurface(pause);
+    SDL_FreeSurface(f);
+    SDL_FreeSurface(ff);
+    SDL_FreeSurface(fff);
+    SDL_Quit();
+    TTF_Quit();
 }

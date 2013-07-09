@@ -16,6 +16,15 @@ int Controller::input(){
                 int key = event.key.keysym.sym;
                 if (key == 27){
                     exit(1);
+                }else if(key == 'g'){
+                    game.nextGeneration();
+                }else if(key == 'n'){
+                    game.killEnvironment();
+                }else if(key == 'p'){
+                    game.killEnvironment();
+                }else if(key == 's'){
+                    speed++;
+                    speed = speed > 3 ? 1 : speed;
                 }
             }
 
@@ -42,6 +51,12 @@ int Controller::input(){
                     if (XX >= 350 and XX <= 370 and YY >= width+8 and YY <= width+28 ){
                         speed++;
                         speed = speed > 3 ? 1 : speed;
+                    }
+                    if (XX >= 460 and XX <= 480 and YY >= width+8 and YY <= width+28 ){
+                        game.killEnvironment();
+                    }
+                    if (XX >= 580 and XX <= 600 and YY >= width+8 and YY <= width+28 ){
+                        game.nextGeneration();
                     }
                 }else if( event.button.button == SDL_BUTTON_RIGHT )
                 {
