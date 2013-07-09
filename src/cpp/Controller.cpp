@@ -62,7 +62,7 @@ void Controller::startGame() {
   }
 }
 
-void Controller::revive(int c,int r) {
+/*void Controller::revive(int c,int r) {
   int cols = game.getWidth();
   int rows = game.getHeight();
    if (game.isCellAlive(c,r))
@@ -71,7 +71,7 @@ void Controller::revive(int c,int r) {
     game.makeCellAlive(c, r);
    //board.update(game);
    tela->drawScreen(game,speed,play);
-}
+}*/
 
 void Controller::nextGeneration() {
   game.nextGeneration();

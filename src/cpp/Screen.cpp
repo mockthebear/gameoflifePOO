@@ -78,7 +78,7 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
     for(int i = 0; i < row; i++) {
         for(int j = 0; j < col; j++) {
             if (game.isCellAlive(j,i)){
-                apply_surface((j)*(height/col)+16,(i)*(width/row)+10,game.getCell(j,i)->s);
+                apply_surface((j)*(height/col)+16,(i)*(width/row)+10,game.getCell(j,i)->getSurface());
             }
             //tela->setCell(i,j,);
         }

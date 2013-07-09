@@ -1,183 +1,77 @@
-#include <iostream>
-#include <list>
-
-using namespace std;
-
 #include "../include/GameOfLife.h"
 
 
 
-Cell::Cell(int i,int j,int t){
-  state = ALIVE;
-  i = i;
-  j = j;
-  switch(t){
-        case 1:
-            s=SDL_LoadBMP( "../content/red.bmp" );
-        break;
-        default:
-            s=SDL_LoadBMP( "../content/yellow.bmp" );
-  }
-
-}
-
-void Cell::kill() {
-  state = DEAD;
-}
-
-void Cell::revive() {
-  state = ALIVE;
-}
-
-bool Cell::isAlive() {
-  return state == ALIVE;
-}
-
 GameOfLife::GameOfLife(int w, int h) {
-  width = w;
-  height = h;
+	width = w;
+	height = h;
 
-  cells = new Cell*[w*h];
+	cells = new Cell*[w*h];
+	states.clear();
+	states.push_back(new State("dead", "Celula morta comum", "../content/yellow.bmp"));
+	states.push_back(new State("alive", "Celula viva comum", "../content/yellow.bmp"));
 
-  for(int i = 0; i < height; i++) {
-    for(int j = 0; j < width; j++) {
-      cells[i*width + j] = new Cell(i,j,0);
-    }
-  }
+	for(int i = 0; i < height; i++) {
+		for(int j = 0; j < width; j++) {
+			cells[i*width + j] = new Cell(i,j,0);
+		}
+	}
 
-  killEnvironment();
+	killEnvironment();
 
-  statistics = new Statistics();
+	statistics = new Statistics();
 }
 
 void GameOfLife::killEnvironment() {
-  for(int i = 0; i < height; i++) {
-    for(int j = 0; j < width; j++) {
-      cells[i*width + j]->kill();
-    }
-  }
-}
-
-int GameOfLife::aliveCells() {
-  int r = 0;
-
-  for(int i = 0; i < height; i++) {
-    for(int j = 0; j < width; j++) {
-      if(cells[i*width + j]->isAlive()) {
-	r++;
-      }
-    }
-  }
-  return r;
-}
-
-int GameOfLife::aliveNeighborCells(int w, int h) {
-  if(w < 0 || w >= width) return 0;
-  if(h < 0 || h >= height) return 0;
-
-  int r = 0;
-
-  for(int i = h-1; i <= h + 1; i++) {
-    for(int j = w-1; j <= w+1; j++) {
-      if((! ((i == h) && (j == w))) && isCellAlive(j,i)) {
-	r++;
-      }
-    }
-  }
-  return r;
-}
-
-bool GameOfLife::isCellAlive(int w, int h) {
-  if(w < 0 || w >= width) return false;
-  if(h < 0 || h >= height) return false;
-
-  return  cells[h * width + w]->isAlive();
+	for(int i = 0; i < height; i++) {
+		for(int j = 0; j < width; j++) {
+			getCell(i, j)->setState("dead");
+		}
+	}
 }
 
 Cell *GameOfLife::getCell(int w, int h) {
-  if(w < 0 || w >= width) return NULL;
-  if(h < 0 || h >= height) return NULL;
+	if(w < 0 || w >= width) return NULL;
+	if(h < 0 || h >= height) return NULL;
 
-  return  cells[h * width + w];
-}
-
-
-void GameOfLife::makeCellAlive(int w, int h) {
-  if(w < 0 || w >= width) return;
-  if(h < 0 || h >= height) return;
-
-  Cell* c = cells[h * width + w];
-
-  if(!c->isAlive()) {
-    cells[h * width + w]->revive();
-  }
-
-  statistics->survive();
-}
-
-
-void GameOfLife::makeCellDead(int w, int h) {
-  if(w < 0 || w >= width) return;
-  if(h < 0 || h >= height) return;
-
-  Cell* c = cells[h * width + w];
-
-  if(c->isAlive()) {
-    cells[h * width + w]->kill();
-  }
-
-  statistics->kill();
+	return  cells[h * width + w];
 }
 
 void GameOfLife::nextGeneration() {
-  list<Cell*> mustRevive;
-  list<Cell*> mustDie;
-
-  for(int i = 0; i < height; i++) {
-    for(int j = 0; j < width; j++) {
-      if(shouldRevive(j,i)) {
-      	mustRevive.push_back(cells[i*width+j]);
-      }
-      else if (shouldKill(j,i)) {
-      	mustDie.push_back(cells[i*width+j]);
-      }
-    }
-  }
-
-  for (list<Cell*>::iterator it = mustRevive.begin(); it != mustRevive.end(); it++) {
-    (*it)->revive();
-    statistics->survive();
-  }
-
-  for (list<Cell*>::iterator it = mustDie.begin(); it != mustDie.end(); it++) {
-    (*it)->kill();
-     statistics->kill();
-  }
+	for(int i = 0; i < height; i++) {
+		for(int j = 0; j < width; j++) {
+			getCell(i, j)->lookAround(i, j, width, height, getCells());
+		}
+	}
+	for(int i = 0; i < height; i++) {
+		for(int j = 0; j < width; j++) {
+			getCell(i, j)->processNextGen();
+		}
+	}
 }
 
- /* Usando o TM, deveriamos tornar shouldRevive e
-  * shouldKill abstratos.
-  */
-
-/*
- * Uma celula morta deve ressuscitar caso
- * tenha tres celulas vizinhas vivas.
-
- */
-bool GameOfLife::shouldRevive(int w, int h) {
-  int aliveNeighbors = aliveNeighborCells(w,h);
-
-  return ((!isCellAlive(w,h)) && (aliveNeighbors == 3));
+char* GameOfLife::getState(int w, int h) {
+	return getCell(w, h)->getState();
 }
 
-/*
- * Uma celula viva deve morrer caso
- * tenha duas ou tres celulas vizinhas vivas.
- */
-bool GameOfLife::shouldKill(int w, int h) {
-  int aliveNeighbors = aliveNeighborCells(w,h);
+State* GameOfLife::findState(char *stateName){
+	list<State*>::iterator It;
+	int x;
 
-  return (isCellAlive(w,h) && (aliveNeighbors != 2 && aliveNeighbors != 3));
+      It = states.begin();
+
+	for (x = states.size(); x > 0; x--){
+		if(strcmp((*It)->getNome(), stateName) == 0) return (*It);
+		It++;
+	}
+	return NULL;
 }
 
+Cell** GameOfLife::getCells(){
+	return cells;
+}
 
+bool GameOfLife::isCellAlive(int j, int i){
+	char* estado = getCell(i, j)->getState();
+	return (strcmp(estado, "alive") == 0);
+}

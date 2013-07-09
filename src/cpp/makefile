@@ -1,10 +1,10 @@
-buildAndRun: linkMain
-	./main
+CMP = g++
+SRC = $(wildcard *.cpp)
+OBJ = $(SRC:.c=.o)
 
 linkMain: compileAll
-	g++ -o main Screen.o Statistics.o GameOfLife.o GameBoard.o Controller.o Main.o -lmingw32 -lSDLmain -lSDL -mwindows -lSDL_ttf
+	$(CMP) -o main $(OBJ) -lmingw32 -lSDLmain -lSDL -mwindows -lSDL_ttf
 compileAll:
-	g++ -c Screen.cpp Statistics.cpp GameOfLife.cpp GameBoard.cpp Controller.cpp Main.cpp
-
+	$(CMP) -c $(SRC)
 clean:
 	rm *.o

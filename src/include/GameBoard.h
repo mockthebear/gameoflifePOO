@@ -16,26 +16,16 @@ using namespace std;
 #include "GameOfLife.h"
 #include "Screen.h"
 
-const string line  = "+-----+";
-const string dead  = "|     |";
-const string alive = "|  o  |";
-
-/*! GameBoard class definition
- *
- *  This class represents a basic game of life environment,
- *  which comprises a bidimensional grid. New environments
- *  shuld be implemented.
- */
 class GameBoard {
- private:
-  int rows;
-  int cols;
+private:
+	int rows;
+	int cols;
 
-  Screen *tela;
- public:
-  /*! basic constructor, taking the number of rows and columns */
-  GameBoard(int r, int c,Screen *t) : rows(r), cols(c),tela(t) {}
-  /*! updates the environment representation */
-  void update(GameOfLife& game);
+	Screen *tela;
+public:
+	void update(GameOfLife& game);
+
+	/*! basic constructor, taking the number of rows and columns */
+	GameBoard(int r, int c,Screen *t) : rows(r), cols(c),tela(t) {}
 };
 #endif
