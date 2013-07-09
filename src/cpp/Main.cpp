@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../include/GameOfLife.h"
-#include "../include/GameBoard.h"
+
 #include "../include/Controller.h"
 #include "../include/Screen.h"
 
@@ -18,8 +18,8 @@ int main(int argc, char** argv) {
   //-lmingw32 -llua51 -lSDLmain -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer -lSDLgfx
   Screen tela(640, 480,cols, rows);
   GameOfLife game(cols, rows);
-  GameBoard board(rows, cols,&tela);
-  Controller controller(game, board,cols, rows,640, 480,&tela);
+
+  Controller controller(game, cols, rows,640, 480,&tela);
 
   controller.startGame();
 

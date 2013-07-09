@@ -16,7 +16,7 @@
 
 //! EnumState enumeration.
 /*! Define the valid states of a cell. */
-enum EnumState {DEAD, ALIVE};
+enum EnumState {DEAD, ALIVE,IMMORTAL};
 
 /*! Cell class definition
  *
@@ -41,6 +41,10 @@ class Cell {
 
   /*! Verifies whether a cell is alive or not */
   bool isAlive();
+
+  void immortal();
+
+  bool isImmortal();
 
 };
 
@@ -75,17 +79,25 @@ class GameOfLife {
   /*! Returns the number of cells in the ALIVE state */
   int aliveCells();
 
+
+
   /*! Given the position of a cell, returns the number of alive neighbors */
   int aliveNeighborCells(int w, int h);
 
   /*! Checks whether a cell is alive */
   bool isCellAlive(int w, int h);
+  /* check if the cell is immortal */
+  bool isCellImmortal(int w, int h);
 
   /*! Makes a given cell alive */
   void makeCellAlive(int w, int h);
+  /* Make a cell immortal */
+  void makeCellImmortal(int w, int h);
 
   /*! Kills a given cell */
   void makeCellDead(int w, int h);
+  /* Kill the cell, even if it is immortal */
+  void makeCellDeadForced(int w, int h);
 
   /*! Leads the game state to a next generation */
   void nextGeneration();

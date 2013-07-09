@@ -43,6 +43,18 @@ int Controller::input(){
                         speed++;
                         speed = speed > 3 ? 1 : speed;
                     }
+                }else if( event.button.button == SDL_BUTTON_RIGHT )
+                {
+                    int XX = event.motion.x;
+                    int YY = event.motion.y;
+
+                    int XX_ = XX-XX%(height/col)+((height/col)/3);
+                    int YY_ = YY-YY%((width/row))+((width/row)/4);
+                    int ROW = (YY-YY%((width/row)))/(width/row);
+                    int COL = (XX-XX%(height/col))/(height/col);
+
+                    immortal(COL,ROW);
+
                 }
             }
     }
@@ -61,6 +73,17 @@ void Controller::startGame() {
     }
   }
 }
+
+void Controller::immortal(int c,int r) {
+  int cols = game.getWidth();
+  int rows = game.getHeight();
+   if (game.isCellImmortal(c,r))
+    game.makeCellDeadForced(c,r);
+   else
+    game.makeCellImmortal(c, r);
+   tela->drawScreen(game,speed,play);
+}
+
 
 void Controller::revive(int c,int r) {
   int cols = game.getWidth();

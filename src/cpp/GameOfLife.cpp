@@ -12,7 +12,7 @@ Cell::Cell(int i,int j,int t){
   i = i;
   j = j;
   switch(t){
-        case 1:
+        case IMMORTAL:
             s=SDL_LoadBMP( "../content/red.bmp" );
         break;
         default:
@@ -20,17 +20,27 @@ Cell::Cell(int i,int j,int t){
   }
 
 }
+void Cell::immortal() {
+  s = SDL_LoadBMP( "../content/blue.bmp" );
+  state = IMMORTAL;
+}
 
 void Cell::kill() {
+  if (isImmortal()){
+    s=SDL_LoadBMP( "../content/yellow.bmp" );
+  }
   state = DEAD;
+
 }
 
 void Cell::revive() {
   state = ALIVE;
 }
-
+bool Cell::isImmortal(){
+    return state == IMMORTAL;
+}
 bool Cell::isAlive() {
-  return state == ALIVE;
+  return state == ALIVE or state == IMMORTAL;
 }
 
 GameOfLife::GameOfLife(int w, int h) {
@@ -87,6 +97,13 @@ int GameOfLife::aliveNeighborCells(int w, int h) {
   return r;
 }
 
+bool GameOfLife::isCellImmortal(int w, int h) {
+  if(w < 0 || w >= width) return false;
+  if(h < 0 || h >= height) return false;
+
+  return  cells[h * width + w]->isImmortal();
+}
+
 bool GameOfLife::isCellAlive(int w, int h) {
   if(w < 0 || w >= width) return false;
   if(h < 0 || h >= height) return false;
@@ -101,6 +118,17 @@ Cell *GameOfLife::getCell(int w, int h) {
   return  cells[h * width + w];
 }
 
+void GameOfLife::makeCellImmortal(int w, int h) {
+  if(w < 0 || w >= width) return;
+  if(h < 0 || h >= height) return;
+
+  Cell* c = cells[h * width + w];
+
+  if(!c->isAlive()) {
+    cells[h * width + w]->immortal();
+  }
+  statistics->survive();
+}
 
 void GameOfLife::makeCellAlive(int w, int h) {
   if(w < 0 || w >= width) return;
@@ -115,6 +143,19 @@ void GameOfLife::makeCellAlive(int w, int h) {
   statistics->survive();
 }
 
+void GameOfLife::makeCellDeadForced(int w, int h) {
+  if(w < 0 || w >= width) return;
+  if(h < 0 || h >= height) return;
+
+  Cell* c = cells[h * width + w];
+
+  if(c->isAlive()) {
+    cells[h * width + w]->kill();
+  }
+
+  statistics->kill();
+}
+
 
 void GameOfLife::makeCellDead(int w, int h) {
   if(w < 0 || w >= width) return;
@@ -122,7 +163,7 @@ void GameOfLife::makeCellDead(int w, int h) {
 
   Cell* c = cells[h * width + w];
 
-  if(c->isAlive()) {
+  if(c->isAlive() and not c->isImmortal()) {
     cells[h * width + w]->kill();
   }
 
@@ -177,7 +218,7 @@ bool GameOfLife::shouldRevive(int w, int h) {
 bool GameOfLife::shouldKill(int w, int h) {
   int aliveNeighbors = aliveNeighborCells(w,h);
 
-  return (isCellAlive(w,h) && (aliveNeighbors != 2 && aliveNeighbors != 3));
+  return (isCellAlive(w,h) && not isCellImmortal(w,h) && (aliveNeighbors != 2 && aliveNeighbors != 3));
 }
 
 
