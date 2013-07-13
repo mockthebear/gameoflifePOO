@@ -81,7 +81,7 @@ class GameOfLife {
 
   /*! Returns the number of cells in the ALIVE state */
   int aliveCells();
-
+  Statistics* getStat(){return statistics;};
 
 
   /*! Given the position of a cell, returns the number of alive neighbors */

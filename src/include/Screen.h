@@ -22,6 +22,7 @@ class Screen{
 
         Screen(int,int,int,int);
         ~Screen();
+        SDL_Surface *getScreen(){return screen;};
         void drawScreen(GameOfLife& game,int s,bool p);
         void apply_surface( int , int , SDL_Surface* );
 

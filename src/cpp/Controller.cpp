@@ -4,6 +4,7 @@ using namespace std;
 
 #include "../include/Controller.h"
 #include "../include/Screen.h"
+#include "../include/Statistics.h"
 int Controller::input(){
 
 
@@ -21,10 +22,18 @@ int Controller::input(){
                 }else if(key == 'n'){
                     game.killEnvironment();
                 }else if(key == 'p'){
-                    game.killEnvironment();
+                    play = !play;
                 }else if(key == 's'){
                     speed++;
                     speed = speed > 3 ? 1 : speed;
+                }else if(key == 'c'){
+                    //J
+                    SDL_Color textColor = { 255, 100, 0 };
+                    char ss[80];
+                    sprintf(ss,"Mortas %d Vivas %d.",game.getStat()->getKill(),game.getStat()->getSurvive());
+                    tela->apply_surface( 10 , 10 ,TTF_RenderText_Solid( TTF_OpenFont( "../content/defaut.ttf",20 ),ss, textColor ));
+                    SDL_Flip( tela->getScreen() );
+                    SDL_Delay(1000);
                 }
             }
 
