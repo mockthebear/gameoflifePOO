@@ -30,8 +30,7 @@ class Controller{
   bool play;
   int speed;
   int col,row,height,width;
-  void revive(int c,int r);
-  void immortal(int c,int r);
+  void revive(int c,int r,int t);
   void nextGeneration();
  public:
   /*! Controller constructor, taking a game instance (model) and a game board (view) */

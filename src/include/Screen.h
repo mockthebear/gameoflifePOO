@@ -13,7 +13,7 @@ typedef struct Surfaces{
 
 }Surface;
 class Screen{
-    SDL_Surface* screen,*gh,*gv,*BG,*MBG,*play,*pause,*f,*ff,*fff,*txtp,*txts,*txte,*refresh,*ln1,*ln2,*gen,*txtg;
+    SDL_Surface* screen,*BG,*MBG,*play,*pause,*f,*ff,*fff,*txtp,*txts,*txte,*refresh,*ln1,*ln2,*gen,*txtg;
 
     TTF_Font *font;
     int col,row,height,width;
@@ -22,6 +22,7 @@ class Screen{
 
         Screen(int,int,int,int);
         ~Screen();
+        SDL_Rect *getLine(int type,int xx,int yy);
         SDL_Surface *getScreen(){return screen;};
         void drawScreen(GameOfLife& game,int s,bool p);
         void apply_surface( int , int , SDL_Surface* );

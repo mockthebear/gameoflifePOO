@@ -53,7 +53,7 @@ int Controller::input(){
                     int ROW = (YY-YY%((width/row)))/(width/row);
                     int COL = (XX-XX%(height/col))/(height/col);
 
-                    revive(COL,ROW);
+                    revive(COL,ROW,0);
                     if (XX >= 250 and XX <= 270 and YY >= width+8 and YY <= width+28 ){
                         play = !play;
                     }
@@ -77,7 +77,7 @@ int Controller::input(){
                     int ROW = (YY-YY%((width/row)))/(width/row);
                     int COL = (XX-XX%(height/col))/(height/col);
 
-                    immortal(COL,ROW);
+                    revive(COL,ROW,1);
 
                 }
             }
@@ -98,24 +98,13 @@ void Controller::startGame() {
   }
 }
 
-void Controller::immortal(int c,int r) {
-  int cols = game.getWidth();
-  int rows = game.getHeight();
-   if (game.isCellImmortal(c,r))
-    game.makeCellDeadForced(c,r);
-   else
-    game.makeCellImmortal(c, r);
-   tela->drawScreen(game,speed,play);
-}
-
-
-void Controller::revive(int c,int r) {
+void Controller::revive(int c,int r,int t) {
   int cols = game.getWidth();
   int rows = game.getHeight();
    if (game.isCellAlive(c,r))
     game.makeCellDead(c,r);
    else
-    game.makeCellAlive(c, r);
+    game.makeCellAlive(c, r,t);
    //board.update(game);
    tela->drawScreen(game,speed,play);
 }

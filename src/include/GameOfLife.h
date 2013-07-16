@@ -12,11 +12,11 @@
 #define GAME_OF_LIFE
 
 #include "Statistics.h"
-
+#include "RuleReader.h"
 
 //! EnumState enumeration.
 /*! Define the valid states of a cell. */
-enum EnumState {DEAD, ALIVE,IMMORTAL};
+enum EnumState {DEAD, ALIVE};
 
 /*! Cell class definition
  *
@@ -25,27 +25,27 @@ enum EnumState {DEAD, ALIVE,IMMORTAL};
  *  state and methods for killing or
  *  reviving.
  */
+
+
 class Cell {
  private:
   EnumState state;
 
-  int i,j;
+  int i,j,type;
  public:
-  SDL_Surface *s;
-  Cell(int,int,int);
+  //SDL_Surface *s;
+  Cell(int,int,int,int);
   ~Cell();
+
+  int getType(){return type;};
   /*! Changes the state of a cell to DEAD */
   void kill();
 
   /*! Changes the state of a cell to ALIVE */
-  void revive();
+  void revive(int);
 
   /*! Verifies whether a cell is alive or not */
   bool isAlive();
-
-  void immortal();
-
-  bool isImmortal();
 
 };
 
@@ -71,9 +71,11 @@ class GameOfLife {
   Statistics* statistics;
   Cell** cells;
 
-  bool shouldRevive(int w, int h);
+
+  bool shouldRevive(int w, int h,int *t);
   bool shouldKill(int w, int h);
  public:
+  struct rule *rules;
   /*! Became public! */
   void killEnvironment();
   /*! Constructor, taking the number of columns and rows */
@@ -93,9 +95,8 @@ class GameOfLife {
   bool isCellImmortal(int w, int h);
 
   /*! Makes a given cell alive */
-  void makeCellAlive(int w, int h);
-  /* Make a cell immortal */
-  void makeCellImmortal(int w, int h);
+  void makeCellAlive(int w, int h,int t);
+
 
   /*! Kills a given cell */
   void makeCellDead(int w, int h);
