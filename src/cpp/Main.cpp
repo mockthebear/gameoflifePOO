@@ -8,8 +8,8 @@ using namespace std;
 #include "../include/Controller.h"
 #include "../include/Screen.h"
 
-const int rows = 50;
-const int cols = 50;
+const int rows = 100;
+const int cols = 100;
 const int sx = (1036);
 const int sy = (668);
 

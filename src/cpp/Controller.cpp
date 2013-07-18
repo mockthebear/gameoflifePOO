@@ -23,6 +23,10 @@ int Controller::input(){
                     game.killEnvironment();
                 }else if(key == 'p'){
                     play = !play;
+                }else if(key == 'u'){
+                    game.undo();
+                }else if (key == '.'){
+                    game.grid = !game.grid;
                 }else if(key == 's'){
                     speed++;
                     speed = speed > 3 ? 1 : speed;
@@ -48,12 +52,12 @@ int Controller::input(){
                     int XX = event.motion.x;
                     int YY = event.motion.y;
 
-                    int XX_ = XX-XX%(height/col)+((height/col)/3);
-                    int YY_ = YY-YY%((width/row))+((width/row)/4);
-                    int ROW = (YY-YY%((width/row)))/(width/row);
-                    int COL = (XX-XX%(height/col))/(height/col);
 
+                    int ROW = ((double)row*(double)YY)/((double)width);
+                    int COL = ((double)col*(double)XX)/((double)height);
+                    game.update();
                     revive(COL,ROW,0);
+
                     if (XX >= 250 and XX <= 270 and YY >= width+8 and YY <= width+28 ){
                         play = !play;
                     }
@@ -72,12 +76,11 @@ int Controller::input(){
                     int XX = event.motion.x;
                     int YY = event.motion.y;
 
-                    int XX_ = XX-XX%(height/col)+((height/col)/3);
-                    int YY_ = YY-YY%((width/row))+((width/row)/4);
-                    int ROW = (YY-YY%((width/row)))/(width/row);
-                    int COL = (XX-XX%(height/col))/(height/col);
-
+                 int ROW = ((double)row*(double)YY)/((double)width);
+                    int COL = ((double)col*(double)XX)/((double)height);
+                    game.update();
                     revive(COL,ROW,1);
+
 
                 }
             }
@@ -91,7 +94,7 @@ void Controller::startGame() {
     int menu = input();
 
     if (t <= SDL_GetTicks() and play){
-        t =  SDL_GetTicks() + (1000/(speed));
+        t =  SDL_GetTicks() + (1000.0 - (1000.0/(3.1-(float)speed)) );
         nextGeneration();
         tela->drawScreen(game,speed,play);
     }

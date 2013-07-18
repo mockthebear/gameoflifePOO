@@ -18,9 +18,11 @@ class RuleReader{
     FILE *fp;
     char *file;
     int size;
+    struct rule *rules;
     public:
         RuleReader();
-        void parseRules(struct rule *r);
+        ~RuleReader();
+        void parseRules(struct rule **r);
 };
 
 #endif

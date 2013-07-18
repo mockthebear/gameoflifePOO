@@ -2,6 +2,10 @@
 #include <SDL/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
+#include <algorithm>    // std::max
+
+//h = x
 Screen::Screen(int h,int w,int row2,int col2){
     SDL_Init( SDL_INIT_EVERYTHING );
     height = h;
@@ -48,8 +52,8 @@ SDL_Rect *Screen::getLine(int type,int xx,int yy){
     SDL_Rect *clip = (SDL_Rect *)malloc(sizeof(SDL_Rect));
     clip->x=xx;
     clip->y=yy;
-    clip->w =type == 0 ? height : (height/row)/8;
-    clip->h =type == 1 ? width : (width/col)/8;
+    clip->w =type == 0 ? height : (((float)height/(float)row)/7.0 or 1.0);
+    clip->h =type == 1 ? width : (((float)width/(float)col)/7.0 or 1.0);
     return clip;
 }
 
@@ -74,24 +78,7 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
     }
 
 
-    int x=0;
-    for (x=0;x<=(col);x++){
-        vert->x = (height/col)*x;
-        SDL_FillRect( screen, vert, SDL_MapRGB( screen->format, 237,191, 130 ) );
-        //apply_surface(,0,gv);
-    }
-    int y=0;
-    for (y=0;y<=(row);y++){
-        hor->y = (width/row)*y;
-        SDL_FillRect( screen, hor, SDL_MapRGB( screen->format, 237,191, 130 ) );
-        //apply_surface(0,,gh);
-    }
-    vert->x = (height/col)*(col);
-    vert->w = height;
-    hor->y = (width/row)*(row);
-    hor->h = width;
-    SDL_FillRect( screen, vert, SDL_MapRGB( screen->format,237,191, 130 ) );
-    SDL_FillRect( screen, hor, SDL_MapRGB( screen->format, 237,191, 130 ) );
+
     apply_surface(0,width,MBG);
     apply_surface(175,width+11,txtp);
     apply_surface(310,width+11,txts);
@@ -135,10 +122,10 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
                     r = r->next;
                 }
                 SDL_Rect square;
-                square.x = (j)*(height/col)+( (height/col)/8 )+3;
-                square.y = (i)*(width/row)+ ( (width/row)/8 )+2;
-                square.h = width/col - ( (width/col)/8 ) -3;
-                square.w = height/row - ( (height/row)/8 ) -4;
+                square.x = ((double)j)*((double)height/(double)col) -.5 ;
+                square.y = ((double)i)*((double)width/(double)row) -.5;
+                square.h = ((double)width/(double)col) + 1;
+                square.w = ((double)height/(double)row) + 1 ;
                 SDL_FillRect( screen, &square,  SDL_MapRGB( screen->format, cola[0],cola[1], cola[2] ) );
                 //apply_surface(,,game.getCell(j,i)->s);
             }
@@ -146,7 +133,28 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
         }
     }
 
+    int x=0;
+    for (x=0;x<=(col);x++){
+        vert->x = ((double)height/(double)col)*(double)x;
+        if (game.grid)
+        SDL_FillRect( screen, vert, SDL_MapRGB( screen->format, 237,191, 130 ) );
+        //apply_surface(,0,gv);
+    }
+    int y=0;
+    for (y=0;y<=(row);y++){
+        hor->y = ((double)width/(double)row)*(double)y;
 
+        //
+        if (game.grid)
+        SDL_FillRect( screen, hor, SDL_MapRGB( screen->format, 237,191, 130 ) );
+        //apply_surface(0,,gh);
+    }
+    vert->x = ((double)height/(double)col)*(double)col;
+    vert->w = height;
+    hor->y = ((double)width/(double)row)*((double)row);
+    hor->h = width;
+    //SDL_FillRect( screen, vert, SDL_MapRGB( screen->format,237,191, 130 ) );
+    //SDL_FillRect( screen, hor, SDL_MapRGB( screen->format, 237,191, 130 ) );
     free(hor);
     free(vert);
     SDL_Flip( screen );

@@ -13,41 +13,7 @@
 
 #include "Statistics.h"
 #include "RuleReader.h"
-
-//! EnumState enumeration.
-/*! Define the valid states of a cell. */
-enum EnumState {DEAD, ALIVE};
-
-/*! Cell class definition
- *
- *  The cell class represents a Cell
- *  in the game of life. Each cell has a
- *  state and methods for killing or
- *  reviving.
- */
-
-
-class Cell {
- private:
-  EnumState state;
-
-  int i,j,type;
- public:
-  //SDL_Surface *s;
-  Cell(int,int,int,int);
-  ~Cell();
-
-  int getType(){return type;};
-  /*! Changes the state of a cell to DEAD */
-  void kill();
-
-  /*! Changes the state of a cell to ALIVE */
-  void revive(int);
-
-  /*! Verifies whether a cell is alive or not */
-  bool isAlive();
-
-};
+#include "Undo.h"
 
 /*! GameOfLife class definition
  *
@@ -70,12 +36,17 @@ class GameOfLife {
   int width, height;
   Statistics* statistics;
   Cell** cells;
+  Undo *undosys;
 
-
+  RuleReader *r;
   bool shouldRevive(int w, int h,int *t);
   bool shouldKill(int w, int h);
  public:
+    bool grid;
   struct rule *rules;
+  /*! Undo! */
+  void undo();
+  void update();
   /*! Became public! */
   void killEnvironment();
   /*! Constructor, taking the number of columns and rows */

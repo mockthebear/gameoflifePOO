@@ -7,93 +7,22 @@ using namespace std;
 #include "../include/RuleReader.h"
 
 
-Cell::~Cell(){
-    //SDL_FreeSurface(s);
-}
-Cell::Cell(int i,int j,int t,int typ){
-  state = ALIVE;
-  i = i;
-  j = j;
-  type = typ;
-}
-
-
-void Cell::kill() {
-
-  state = DEAD;
-
-}
-
-void Cell::revive(int i) {
-  type = i;
-  state = ALIVE;
-}
-bool Cell::isAlive() {
-  return state == ALIVE;
-}
 
 GameOfLife::GameOfLife(int w, int h) {
   width = w;
   height = h;
-
-  //Rules!
-  rules = (struct rule*)malloc(sizeof(struct rule));
-  rules->id = 0;
-  rules->cellToLive = 3;
-  rules->amnt = 2;
-  rules->cellToDie = (int*)malloc(sizeof(int)*rules->amnt);
-  rules->cellToDie[0] = 2; //Morrer se for 2 ou 3;
-  rules->cellToDie[1] = 3;
-  rules->color[0] = 255;
-  rules->color[1] = 255;
-  rules->color[2] = 0;
-  struct rule *temp = rules->next = (struct rule*)malloc(sizeof(struct rule));
   //IMORTAL
-
-  temp->id = 1;
-  temp->cellToLive = -1;
-  temp->amnt = 9;
-  temp->cellToDie = (int*)malloc(sizeof(int)*9);
-  int tmp;
-  for (tmp=0;tmp<=8;tmp++){
-    temp->cellToDie[tmp] = tmp;
-  }
-  temp->color[0] = 0;
-  temp->color[1] = 0;
-  temp->color[2] = 255;
-    temp->next = NULL;
-
-  RuleReader *r = new RuleReader();
-  r->parseRules(temp);
-  //delete r;
-  /*temp = temp->next = (struct rule*)malloc(sizeof(struct rule));;
-  //Teste
-
-  temp->id = 2;
-  temp->cellToLive = 8;
-  temp->amnt = 9;
-  temp->cellToDie = (int*)malloc(sizeof(int)*9);
-  for (tmp=1;tmp<=8;tmp++){
-    temp->cellToDie[tmp-1] = tmp;
-  }
-  temp->color[0] = 255;
-  temp->color[1] = 0;
-  temp->color[2] = 0;
-  temp->next = NULL;*/
-
-
-  //rules->next->next = temp;
-
+  undosys = new Undo(w,h);
+  grid = true;
+  r = new RuleReader();
+  r->parseRules(&rules);
   cells = new Cell*[w*h];
-
   for(int i = 0; i < height; i++) {
     for(int j = 0; j < width; j++) {
       cells[i*width + j] = new Cell(i,j,0,0);
     }
   }
-
   killEnvironment();
-
   statistics = new Statistics();
 }
 
@@ -105,6 +34,12 @@ void GameOfLife::killEnvironment() {
   }
 }
 
+void GameOfLife::update(){
+    undosys->addStep(cells);
+}
+void GameOfLife::undo(){
+    undosys->reallyUndo(cells);
+}
 int GameOfLife::aliveCells() {
   int r = 0;
 
@@ -209,7 +144,7 @@ void GameOfLife::nextGeneration() {
       }
     }
   }
-
+    update();
   for (list<REF*>::iterator it = mustRevive.begin(); it != mustRevive.end(); it++) {
     (*it)->c->revive((*it)->t);
     free((*it));
@@ -220,6 +155,7 @@ void GameOfLife::nextGeneration() {
     (*it)->kill();
      statistics->kill();
   }
+
 }
 
  /* Usando o TM, deveriamos tornar shouldRevive e

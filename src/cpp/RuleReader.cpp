@@ -9,7 +9,16 @@
  Quantidade de regras para se manter viva
  [N termos]
 */
+RuleReader::~RuleReader(){
+    struct rule *aux,*old;
+    aux = rules;
+    while (aux != NULL){
+        old = aux;
+        aux = aux->next;
+        free(old);
+    }
 
+}
 RuleReader::RuleReader(){
     fp = fopen("../content/rules.txt","r");
     fseek(fp, 0L, SEEK_END);
@@ -20,10 +29,25 @@ RuleReader::RuleReader(){
     for (i=0;i<size;i++)
         file[i] = fgetc(fp);
     //Read done.
+    fclose(fp);
 }
-void RuleReader::parseRules(struct rule *r){
+void RuleReader::parseRules(struct rule **r){
     int i;
-    struct rule *aux = r;
+    struct rule *temp = (struct rule*)malloc(sizeof(struct rule));
+    rules = (*r) = temp;
+    temp->id = 1;
+    temp->cellToLive = -1;
+    temp->amnt = 9;
+    temp->cellToDie = (int*)malloc(sizeof(int)*9);
+    int tmp;
+    for (tmp=0;tmp<=8;tmp++){
+        temp->cellToDie[tmp] = tmp;
+    }
+    temp->color[0] = 0;
+    temp->color[1] = 0;
+    temp->color[2] = 255;
+    temp->next = NULL;
+    struct rule *aux = *r;
     while (aux->next != NULL){
         aux = aux->next;
     }
@@ -87,22 +111,17 @@ void RuleReader::parseRules(struct rule *r){
             aux->next = (struct rule*)malloc(sizeof(struct rule));
             aux = aux->next;
             aux->next = NULL;
-            aux->id = rand()%500;
+            aux->id = rand()%5000;
             aux->cellToLive = toBorn;
             aux->amnt = AMNT;
             aux->cellToDie = (int*)malloc(sizeof(int)*AMNT);
-            //for (tmp=1;tmp<=8;tmp++){
-              //  aux->cellToDie[tmp-1] = tmp;
-              //}
-              aux->color[0] = R;
-              aux->color[1] = G;
-              aux->color[2] = B;
-            //printf(" -- %d %d %d %d %d     i: %d = %c ->",toBorn,R,G,B,AMNT,i,file[i]);
+            aux->color[0] = R;
+            aux->color[1] = G;
+            aux->color[2] = B;
             int k;
             i++;
             i++;
             for (k=0;k<AMNT;k++){
-                //
                 printf("%d - ",file[i+k]-'0');
                 aux->cellToDie[k] = file[i+k]-'0';
                 i++;
@@ -110,4 +129,18 @@ void RuleReader::parseRules(struct rule *r){
 
         }
     }
+    while (temp->next != NULL)
+    temp = temp->next;
+   //Rules!
+  temp = temp->next = (struct rule*)malloc(sizeof(struct rule));
+  temp->id = 0;
+  temp->cellToLive = 3;
+  temp->amnt = 2;
+  temp->cellToDie = (int*)malloc(sizeof(int)*temp->amnt);
+  temp->cellToDie[0] = 2; //Morrer se for 2 ou 3;
+  temp->cellToDie[1] = 3;
+  temp->color[0] = 255;
+  temp->color[1] = 255;
+  temp->color[2] = 0;
+  temp->next = NULL;
 }
