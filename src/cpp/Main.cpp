@@ -16,7 +16,6 @@ const int sy = (668);
 int main(int argc, char** argv) {
 
 
-
   //-lmingw32 -llua51 -lSDLmain -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer -lSDLgfx
   Screen tela(sx, sy,cols, rows);
   GameOfLife game(cols, rows);

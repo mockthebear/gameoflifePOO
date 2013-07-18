@@ -13,7 +13,7 @@ typedef struct Surfaces{
 
 }Surface;
 class Screen{
-    SDL_Surface* screen,*BG,*MBG,*play,*pause,*f,*ff,*fff,*txtp,*txts,*txte,*refresh,*ln1,*ln2,*gen,*txtg;
+    SDL_Surface* screen,*BG,*MBG,*play,*pause,*f,*ff,*fff,*txtp,*txts,*txte,*refresh,*ln1,*ln2,*gen,*txtg,*und;
 
     TTF_Font *font;
     int col,row,height,width;

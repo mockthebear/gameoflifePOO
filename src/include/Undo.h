@@ -48,7 +48,7 @@ class Memento{
 };
 
 class Undo{
-        Memento *steps[MAXUNDOS];
+        Memento *steps[MAXUNDOS+1];
         int amnt,state,i,j;
         public:
             Undo(int,int);

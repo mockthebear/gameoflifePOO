@@ -28,6 +28,7 @@ Screen::Screen(int h,int w,int row2,int col2){
     fff     = SDL_LoadBMP( "../content/fff.bmp" );
     refresh     = SDL_LoadBMP( "../content/refresh.bmp" );
     gen     = SDL_LoadBMP( "../content/gen.bmp" );
+    und     = SDL_LoadBMP( "../content/undo.bmp" );
 
     //Text:
     SDL_Color textColor = { 100, 0, 255 };
@@ -84,6 +85,7 @@ void Screen::drawScreen(GameOfLife& game,int s,bool p){
     apply_surface(310,width+11,txts);
     apply_surface(410,width+11,txte);
     apply_surface(520,width+11,txtg);
+    apply_surface(495,width+8,und);
     apply_surface(10,width+4,ln1);
     apply_surface(10,width+18,ln2);
     apply_surface(460,width+8,refresh);
@@ -171,6 +173,7 @@ Screen::~Screen(){
     SDL_FreeSurface(f);
     SDL_FreeSurface(ff);
     SDL_FreeSurface(fff);
+    SDL_FreeSurface(und);
     SDL_Quit();
     TTF_Quit();
 }

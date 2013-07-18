@@ -55,21 +55,22 @@ int Controller::input(){
 
                     int ROW = ((double)row*(double)YY)/((double)width);
                     int COL = ((double)col*(double)XX)/((double)height);
-                    game.update();
-                    revive(COL,ROW,0);
+
 
                     if (XX >= 250 and XX <= 270 and YY >= width+8 and YY <= width+28 ){
                         play = !play;
-                    }
-                    if (XX >= 350 and XX <= 370 and YY >= width+8 and YY <= width+28 ){
+                    }else if (XX >= 350 and XX <= 370 and YY >= width+8 and YY <= width+28 ){
                         speed++;
                         speed = speed > 3 ? 1 : speed;
-                    }
-                    if (XX >= 460 and XX <= 480 and YY >= width+8 and YY <= width+28 ){
+                    }else if (XX >= 460 and XX <= 480 and YY >= width+8 and YY <= width+28 ){
                         game.killEnvironment();
-                    }
-                    if (XX >= 580 and XX <= 600 and YY >= width+8 and YY <= width+28 ){
+                    }else if (XX >= 495 and XX <= 515 and YY >= width+8 and YY <= width+28 ){
+                        game.undo();
+                    }else if (XX >= 580 and XX <= 600 and YY >= width+8 and YY <= width+28 ){
                         game.nextGeneration();
+                    }else{
+                        game.update();
+                        revive(COL,ROW,0);
                     }
                 }else if( event.button.button == SDL_BUTTON_RIGHT )
                 {
